@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Khám Phá Việt Nam — Một dải đất hình chữ S</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #efe6d2;
+    --paper-deep: #e4d8bb;
+    --ink: #2a2118;
+    --indigo: #2c4a6e;
+    --indigo-deep: #1c334f;
+    --lacquer: #8c2f39;
+    --gold: #b4872a;
+    --jade: #3f6b4a;
+    --river: #6d95a1;
+    --line: rgba(42,33,24,0.16);
+  }
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Be Vietnam Pro', sans-serif;
+    overflow-x: hidden;
+  }
+  ::selection{ background: var(--gold); color: var(--paper); }
+
+  /* subtle paper texture */
+  body::before{
+    content:"";
+    position: fixed; inset:0;
+    pointer-events:none;
+    z-index: 1;
+    opacity: 0.5;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(140,47,57,0.04), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(44,74,110,0.05), transparent 45%);
+  }
+
+  a{ color: inherit; }
+
+  /* ---------- NAV ---------- */
+  header{
+    position: fixed; top:0; left:0; right:0;
+    z-index: 50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 20px 5vw;
+    mix-blend-mode: normal;
+    backdrop-filter: blur(6px);
+    background: linear-gradient(to bottom, rgba(239,230,210,0.9), rgba(239,230,210,0));
+  }
+  .logo{
+    font-family:'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.25rem;
+    letter-spacing: 0.01em;
+  }
+  .logo b{ font-style: normal; font-weight: 600; color: var(--lacquer); }
+  nav.stops{
+    display:flex; gap: 22px;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+    opacity: 0.7;
+  }
+  nav.stops span{ display:none; }
+  @media(min-width:900px){ nav.stops span{ display:inline; } }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position: relative;
+    min-height: 100vh;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    text-align:center;
+    padding: 120px 6vw 80px;
+    overflow:hidden;
+  }
+  .hero .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--lacquer);
+    margin-bottom: 22px;
+  }
+  .hero h1{
+    font-family:'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(2.6rem, 7.5vw, 6.2rem);
+    line-height: 1.02;
+    margin: 0 0 28px;
+    max-width: 18ch;
+  }
+  .hero h1 em{
+    font-style: italic;
+    color: var(--lacquer);
+    font-weight: 500;
+  }
+  .hero p.sub{
+    max-width: 46ch;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: rgba(42,33,24,0.75);
+    margin: 0 0 46px;
+  }
+  .scroll-cue{
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(42,33,24,0.55);
+  }
+  .scroll-cue .line{
+    width:1px; height:46px;
+    background: linear-gradient(to bottom, var(--indigo), transparent);
+    animation: flow 1.8s ease-in-out infinite;
+  }
+  @keyframes flow{
+    0%{ transform: scaleY(0.3); transform-origin: top; opacity:0.4; }
+    50%{ transform: scaleY(1); transform-origin: top; opacity:1; }
+    100%{ transform: scaleY(0.3); transform-origin: bottom; opacity:0.4; }
+  }
+
+  /* background silhouette letter S made of the country's shape, faint */
+  .hero .s-mark{
+    position:absolute;
+    right: -6vw; top: 8%;
+    font-family:'Fraunces', serif;
+    font-weight: 600;
+    font-style: italic;
+    font-size: min(60vw, 640px);
+    line-height:1;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(140,47,57,0.16);
+    user-select:none;
+    z-index:0;
+  }
+
+  /* ---------- JOURNEY / SPINE ---------- */
+  .journey{
+    position: relative;
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 40px 6vw 160px;
+  }
+  .journey-head{
+    text-align:center;
+    margin-bottom: 90px;
+  }
+  .journey-head .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform:uppercase;
+    color: var(--indigo);
+    margin-bottom: 16px;
+  }
+  .journey-head h2{
+    font-family:'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(1.9rem, 4vw, 2.8rem);
+    margin: 0;
+  }
+
+  .spine-svg{
+    position:absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 100%;
+    z-index: 0;
+    pointer-events:none;
+  }
+  .spine-svg path{
+    fill:none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+  }
+
+  .stops{
+    position: relative;
+    z-index: 2;
+    display:flex;
+    flex-direction:column;
+    gap: 10px;
+  }
+  .stop{
+    display:grid;
+    grid-template-columns: 1fr 90px 1fr;
+    align-items:center;
+    padding: 46px 0;
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .stop.visible{ opacity:1; transform: translateY(0); }
+
+  .stop .card{
+    background: rgba(255,252,244,0.55);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: 26px 30px;
+    max-width: 380px;
+  }
+  .stop:nth-child(odd) .card{ grid-column: 1; justify-self:end; text-align:right; }
+  .stop:nth-child(even) .card{ grid-column: 3; justify-self:start; text-align:left; }
+
+  .stop .node{
+    grid-column: 2;
+    justify-self:center;
+    display:flex; flex-direction:column; align-items:center; gap: 8px;
+  }
+  .stop .node .dot{
+    width: 14px; height:14px;
+    border-radius: 50%;
+    background: var(--zone-color, var(--indigo));
+    box-shadow: 0 0 0 5px rgba(239,230,210,0.9), 0 0 0 6px var(--line);
+    position:relative;
+  }
+  .stop .node .dot::after{
+    content:"";
+    position:absolute; inset:-9px;
+    border-radius:50%;
+    border: 1px solid var(--zone-color, var(--indigo));
+    opacity:0;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    transform: scale(0.7);
+  }
+  .stop.visible .node .dot::after{ opacity:0.5; transform: scale(1); }
+  .stop .node .idx{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--zone-color, var(--indigo));
+    letter-spacing: 0.06em;
+  }
+
+  .stop .zone-tag{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--zone-color, var(--indigo));
+    display:block;
+    margin-bottom: 10px;
+  }
+  .stop h3{
+    font-family:'Fraunces', serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: 1.55rem;
+    margin: 0 0 12px;
+    color: var(--ink);
+  }
+  .stop p{
+    margin:0;
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: rgba(42,33,24,0.78);
+  }
+  .stop .meta{
+    margin-top: 14px;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: rgba(42,33,24,0.5);
+    letter-spacing: 0.04em;
+  }
+
+  /* zone section dividers */
+  .zone-divider{
+    display:flex; align-items:center; gap: 16px;
+    margin: 10px 0 30px;
+    justify-content:center;
+    opacity:0;
+    transform: translateY(16px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .zone-divider.visible{ opacity:1; transform:translateY(0); }
+  .zone-divider .rule{ height:1px; width: 60px; background: var(--line); }
+  .zone-divider span{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--zone-color);
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    position:relative;
+    padding: 100px 6vw 60px;
+    background: var(--ink);
+    color: var(--paper);
+    text-align:center;
+  }
+  footer .quote{
+    font-family:'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(1.4rem, 3vw, 2.1rem);
+    max-width: 24ch;
+    margin: 0 auto 34px;
+    line-height:1.4;
+  }
+  footer .quote span{ color: var(--gold); }
+  .back-top{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--paper);
+    text-decoration:none;
+    border: 1px solid rgba(239,230,210,0.35);
+    padding: 12px 22px;
+    border-radius: 999px;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  .back-top:hover{ background: var(--paper); color: var(--ink); }
+  footer .fine{
+    margin-top: 50px;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    color: rgba(239,230,210,0.4);
+  }
+
+  /* ---------- responsive ---------- */
+  @media(max-width: 760px){
+    .spine-svg{ left: 22px; transform:none; width:60px; }
+    .stop{ grid-template-columns: 50px 1fr; }
+    .stop .node{ grid-column:1; }
+    .stop:nth-child(odd) .card,
+    .stop:nth-child(even) .card{
+      grid-column: 2; justify-self: start; text-align:left; max-width: 100%;
+    }
+    .hero .s-mark{ display:none; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Khám Phá <b>Việt Nam</b></div>
+  <nav class="stops">
+    <span>Bắc</span><span>·</span><span>Trung</span><span>·</span><span>Nam</span><span>·</span><span>8 điểm dừng</span>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="s-mark">S</div>
+  <div class="eyebrow">Hà Giang → Cà Mau · 1.650 km đường bờ biển</div>
+  <h1>Một dải đất<br>hình chữ <em>S</em></h1>
+  <p class="sub">Từ ruộng bậc thang trên đỉnh núi phía Bắc, qua những cố đô rêu phong miền Trung, đến những dòng kênh phù sa miền Tây — mỗi vùng đất kể một câu chuyện khác nhau. Cuộn xuống để bắt đầu hành trình.</p>
+  <div class="scroll-cue">
+    <span>Bắt đầu</span>
+    <div class="line"></div>
+  </div>
+</section>
+
+<section class="journey">
+  <div class="journey-head">
+    <div class="eyebrow">Hành trình Bắc – Nam</div>
+    <h2>Tám điểm dừng dọc theo dải đất</h2>
+  </div>
+
+  <svg class="spine-svg" viewBox="0 0 120 2600" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="spineGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#2c4a6e"/>
+        <stop offset="35%" stop-color="#2c4a6e"/>
+        <stop offset="45%" stop-color="#8c2f39"/>
+        <stop offset="65%" stop-color="#b4872a"/>
+        <stop offset="75%" stop-color="#3f6b4a"/>
+        <stop offset="100%" stop-color="#3f6b4a"/>
+      </linearGradient>
+    </defs>
+    <path d="M60,0
+             C60,120 20,160 20,280
+             C20,400 100,440 100,560
+             C100,680 20,720 20,840
+             C20,960 100,1000 100,1120
+             C100,1240 20,1280 20,1400
+             C20,1520 100,1560 100,1680
+             C100,1800 20,1840 20,1960
+             C20,2080 100,2120 100,2240
+             C100,2360 20,2400 20,2520
+             C20,2560 60,2580 60,2600"
+          stroke="url(#spineGrad)"/>
+  </svg>
+
+  <div class="stops">
+
+    <div class="zone-divider" style="--zone-color: var(--indigo);"><span>Miền Bắc</span><div class="rule"></div></div>
+
+    <div class="stop" style="--zone-color: var(--indigo);">
+      <div class="card">
+        <span class="zone-tag">Điểm 01 · Vùng cao Tây Bắc</span>
+        <h3>Hà Giang &amp; Sa Pa</h3>
+        <p>Đèo Mã Pí Lèng uốn lượn giữa núi đá tai mèo, còn Sa Pa giấu mình trong ruộng bậc thang mùa nước đổ. Đây là nơi các dân tộc Mông, Dao, Tày gìn giữ nghề nhuộm chàm và dệt thổ cẩm qua nhiều thế hệ.</p>
+        <div class="meta">Cao độ ~1.500m · mùa đẹp: T9–T11</div>
+      </div>
+      <div class="node"><span class="idx">01</span><div class="dot"></div></div>
+    </div>
+
+    <div class="stop" style="--zone-color: var(--indigo);">
+      <div class="card">
+        <span class="zone-tag">Điểm 02 · Thủ đô ngàn năm</span>
+        <h3>Hà Nội</h3>
+        <p>36 phố phường mang tên nghề cũ, hồ Gươm phủ sương sớm, và tiếng rao hàng rong len lỏi trong phố cổ. Một đô thị nghìn năm tuổi vẫn giữ nhịp sống chậm rãi giữa lòng hiện đại.</p>
+        <div class="meta">Thành lập 1010 · Thăng Long xưa</div>
+      </div>
+      <div class="node"><span class="idx">02</span><div class="dot"></div></div>
+    </div>
+
+    <div class="stop" style="--zone-color: var(--indigo);">
+      <div class="card">
+        <span class="zone-tag">Điểm 03 · Di sản thiên nhiên</span>
+        <h3>Vịnh Hạ Long</h3>
+        <p>Hơn 1.600 hòn đảo đá vôi nhô lên từ mặt nước xanh ngọc, mỗi đảo mang một truyền thuyết về rồng mẹ hạ giới. Được UNESCO công nhận là di sản thiên nhiên thế giới từ năm 1994.</p>
+        <div class="meta">UNESCO 1994 · ~1.600 đảo</div>
+      </div>
+      <div class="node"><span class="idx">03</span><div class="dot"></div></div>
+    </div>
+
+    <div class="zone-divider" style="--zone-color: var(--lacquer);"><span>Miền Trung</span><div class="rule"></div></div>
+
+    <div class="stop" style="--zone-color: var(--lacquer);">
+      <div class="card">
+        <span class="zone-tag">Điểm 04 · Cố đô triều Nguyễn</span>
+        <h3>Huế</h3>
+        <p>Kinh thành cổ kính bên dòng sông Hương thơ mộng, nơi những lăng tẩm vua chúa ẩn mình giữa rừng thông. Nhã nhạc cung đình vang lên trên thuyền rồng mỗi đêm trăng.</p>
+        <div class="meta">Kinh đô 1802–1945 · sông Hương</div>
+      </div>
+      <div class="node"><span class="idx">04</span><div class="dot"></div></div>
+    </div>
+
+    <div class="stop" style="--zone-color: var(--gold);">
+      <div class="card">
+        <span class="zone-tag">Điểm 05 · Phố cổ đèn lồng</span>
+        <h3>Hội An</h3>
+        <p>Những ngôi nhà mái ngói rêu phong nhuộm vàng ánh đèn lồng mỗi tối rằm. Từng là thương cảng sầm uất, nay Hội An giữ nguyên vẹn nét giao thoa văn hóa Việt – Hoa – Nhật.</p>
+        <div class="meta">UNESCO 1999 · rằm phố cổ hàng tháng</div>
+      </div>
+      <div class="node"><span class="idx">05</span><div class="dot"></div></div>
+    </div>
+
+    <div class="stop" style="--zone-color: var(--gold);">
+      <div class="card">
+        <span class="zone-tag">Điểm 06 · Cao nguyên ngàn hoa</span>
+        <h3>Đà Lạt</h3>
+        <p>Khí hậu se lạnh quanh năm, những đồi thông và vườn hoa nối dài trên cao nguyên Lâm Viên. Kiến trúc Pháp cổ điển vẫn còn nguyên vẹn trong từng biệt thự cổ.</p>
+        <div class="meta">Cao độ ~1.500m · nhiệt độ TB 18–23°C</div>
+      </div>
+      <div class="node"><span class="idx">06</span><div class="dot"></div></div>
+    </div>
+
+    <div class="zone-divider" style="--zone-color: var(--jade);"><span>Miền Nam</span><div class="rule"></div></div>
+
+    <div class="stop" style="--zone-color: var(--jade);">
+      <div class="card">
+        <span class="zone-tag">Điểm 07 · Đô thị năng động</span>
+        <h3>TP. Hồ Chí Minh</h3>
+        <p>Sài Gòn xưa nhộn nhịp suốt ngày đêm, nơi những tòa nhà cao tầng đứng cạnh chợ Bến Thành trăm tuổi. Nhịp sống hối hả nhưng vẫn ấm áp tình người trong từng con hẻm nhỏ.</p>
+        <div class="meta">Thành phố lớn nhất Việt Nam</div>
+      </div>
+      <div class="node"><span class="idx">07</span><div class="dot"></div></div>
+    </div>
+
+    <div class="stop" style="--zone-color: var(--jade);">
+      <div class="card">
+        <span class="zone-tag">Điểm 08 · Miền sông nước</span>
+        <h3>Đồng bằng sông Cửu Long</h3>
+        <p>Ghe thuyền chở đầy trái cây trên chợ nổi Cái Răng lúc bình minh, kênh rạch chằng chịt len qua vườn dừa xanh mướt. Vựa lúa của cả nước, nơi sông Mê Kông đổ ra biển qua chín cửa rồng.</p>
+        <div class="meta">"Cửu Long" · 9 nhánh sông ra biển</div>
+      </div>
+      <div class="node"><span class="idx">08</span><div class="dot"></div></div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p class="quote">Việt Nam không phải một điểm đến — <span>mà là một hành trình</span> nối dài từ núi ra biển.</p>
+  <a class="back-top" href="#top">↑ Quay về đầu trang</a>
+  <div class="fine">Khám Phá Việt Nam · một trang giới thiệu du lịch</div>
+</footer>
+
+<script>
+  const stops = document.querySelectorAll('.stop, .zone-divider');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.25 });
+  stops.forEach(s => io.observe(s));
+</script>
+
+</body>
+</html>
